@@ -133,3 +133,6 @@ typings/
 debug.js
 package-lock.json
 .idea
+
+# Build output
+dist/

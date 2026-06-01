@@ -1,8 +1,8 @@
-const youzanyun = require('../src/index');
+import { client } from '../src/index';
 
 const token = 'f59b1a6bb04f4eqweqd1c6af315d';
 
-const resp = youzanyun.client.call({
+const resp = client.call({
   api: 'youzan.trade.get',
   version: '4.0.0',
   token,

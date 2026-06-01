@@ -1,11 +1,10 @@
-
 /**
  * 本示例演示自用型应用获取Token
  */
 
-const youzanyun = require('../src/index');
+import { token } from '../src/index';
 
-const resp = youzanyun.token.get({
+const resp = token.get({
   authorize_type: 'silent',
   grant_id: 110,
   client_id: 'YOUR_CLIENT_ID',

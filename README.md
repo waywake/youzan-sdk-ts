@@ -1,9 +1,9 @@
 YouzanYun SDK
 =======
 
-[![NPM Version](https://img.shields.io/npm/v/youzanyun-sdk.svg?style=flat)](https://www.npmjs.com/package/youzanyun-sdk)
+[![NPM Version](https://img.shields.io/npm/v/@waywake/youzanyun-sdk.svg?style=flat)](https://www.npmjs.com/package/@waywake/youzanyun-sdk)
 [![License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![Downloads](https://img.shields.io/npm/dt/youzanyun-sdk.svg)]()
+[![Downloads](https://img.shields.io/npm/dt/@waywake/youzanyun-sdk.svg)]()
 [![Build Status](https://travis-ci.org/youzan/open-sdk-node.png)](https://travis-ci.org/youzan/open-sdk-node)
 [![Coverage Status](https://coveralls.io/repos/github/youzan/open-sdk-node/badge.svg?branch=master)](https://coveralls.io/github/youzan/open-sdk-node?branch=master)
 
@@ -12,7 +12,7 @@ YouzanYun SDK for Node.
 ## Install
 
 ```bash
-npm i youzanyun-sdk --save
+npm i @waywake/youzanyun-sdk --save
 ```
 
 ## Usage
@@ -24,7 +24,7 @@ npm i youzanyun-sdk --save
 #### 工具型应用 获取access_token
 
 ```node
-const youzanyun = require('youzanyun-sdk');
+const youzanyun = require('@waywake/youzanyun-sdk');
 
 // 获取token
 const resp = youzanyun.token.get({
@@ -39,7 +39,7 @@ const resp = youzanyun.token.get({
 #### 自用型应用 获取access_token
 
 ```node
-const youzanyun = require('youzanyun-sdk');
+const youzanyun = require('@waywake/youzanyun-sdk');
 
 const resp = youzanyun.token.get({
   authorize_type: 'silent',
@@ -53,7 +53,7 @@ const resp = youzanyun.token.get({
 #### 工具型应用及自用型应用 刷新access_token
 
 ```node
-const youzanyun = require('youzanyun-sdk');
+const youzanyun = require('@waywake/youzanyun-sdk');
 
 // 刷新token
 const resp = youzanyun.token.get({
@@ -69,7 +69,7 @@ const resp = youzanyun.token.get({
 #### Token方式
 
 ```node
-const youzanyun = require('youzanyun-sdk');
+const youzanyun = require('@waywake/youzanyun-sdk');
 
 const token = 'f59b1a6bb04f4eqweqd1c6af315d';
 const params = {tid: 'E20190509110527067500013'};
@@ -85,7 +85,7 @@ const resp = youzanyun.client.call({
 #### 文件上传
 
 ```node
-const youzanyun = require('youzanyun-sdk');
+const youzanyun = require('@waywake/youzanyun-sdk');
 
 const token = 'f59b1a6bb0asdasq613d1c6af315d';
 const files = {'image': path.resolve(__dirname, './pic.png')};
@@ -102,7 +102,7 @@ const resp = youzanyun.client.call({
 ### 3. 消息解密
 
 ```node
-const youzanyun = require('youzanyun-sdk');
+const youzanyun = require('@waywake/youzanyun-sdk');
 
 const messages = 'YOUR_RECEIVED_MESSAGES';
 const clientSecret = 'YOUR_CLIENT_SECRET';

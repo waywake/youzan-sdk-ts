@@ -37,13 +37,13 @@
   ],
   "author": "youzan",
   "license": "MIT",
-  "homepage": "https://github.com/youzan/open-sdk-node",
+  "homepage": "https://github.com/waywake/youzan-sdk-ts#readme",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/youzan/open-sdk-node.git"
+    "url": "https://github.com/waywake/youzan-sdk-ts.git"
   },
   "bugs": {
-    "url": "https://github.com/youzan/open-sdk-node/issues"
+    "url": "https://github.com/waywake/youzan-sdk-ts/issues"
   },
   "engines": {
     "node": ">=16.0.0"

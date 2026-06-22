@@ -3,17 +3,70 @@
  */
 
 import fs from 'fs';
-import axios from 'axios';
-import FormData from 'form-data';
+import path from 'path';
 import * as configHttp from '../config/http';
 
-// 创建预配置的 axios 实例
-const httpClient = axios.create({
-  baseURL: configHttp.getBaseUrl(),
-  headers: {
-    'User-Agent': 'YZY-Open-Client 1.0.0 - Node',
-  },
-});
+const USER_AGENT = 'YZY-Open-Client 1.0.0 - Node';
+
+export interface HttpResponse<T = unknown> {
+  data: T;
+  status: number;
+  statusText: string;
+  headers: Record<string, string>;
+  url: string;
+}
+
+export class HttpError<T = unknown> extends Error {
+  response: HttpResponse<T>;
+
+  constructor(response: HttpResponse<T>) {
+    super(`Request failed with status code ${response.status}`);
+    this.name = 'HttpError';
+    this.response = response;
+  }
+}
+
+function getRequestUrl(url: string): string {
+  return new URL(url, configHttp.getBaseUrl()).toString();
+}
+
+function headersToObject(headers: Headers): Record<string, string> {
+  const result: Record<string, string> = {};
+  headers.forEach((value, key) => {
+    result[key] = value;
+  });
+  return result;
+}
+
+async function parseResponseBody(resp: Response): Promise<unknown> {
+  const text = await resp.text();
+  if (text === '') {
+    return null;
+  }
+
+  const contentType = resp.headers.get('content-type');
+  if (contentType?.includes('application/json')) {
+    return JSON.parse(text);
+  }
+
+  return text;
+}
+
+async function toHttpResponse(resp: Response): Promise<HttpResponse> {
+  const response = {
+    data: await parseResponseBody(resp),
+    status: resp.status,
+    statusText: resp.statusText,
+    headers: headersToObject(resp.headers),
+    url: resp.url,
+  };
+
+  if (!resp.ok) {
+    throw new HttpError(response);
+  }
+
+  return response;
+}
 
 /**
  * 发起 POST 请求
@@ -22,10 +75,15 @@ const httpClient = axios.create({
  * @param params POST 参数
  */
 export async function post(url: string, params?: Record<string, unknown>) {
-  const resp = await httpClient.post(url, params, {
-    headers: { 'Content-type': 'application/json;charset=UTF-8' },
+  const resp = await fetch(getRequestUrl(url), {
+    method: 'POST',
+    headers: {
+      'User-Agent': USER_AGENT,
+      'Content-type': 'application/json;charset=UTF-8',
+    },
+    body: params === undefined ? undefined : JSON.stringify(params),
   });
-  return resp;
+  return toHttpResponse(resp);
 }
 
 /**
@@ -37,18 +95,18 @@ export async function post(url: string, params?: Record<string, unknown>) {
 export async function upload(url: string, files: Map<string, string> | Record<string, string>) {
   const form = new FormData();
 
-  if (files instanceof Map) {
-    files.forEach((filePath, key) => {
-      form.append(key, fs.createReadStream(filePath));
-    });
-  } else {
-    for (const [key, filePath] of Object.entries(files)) {
-      form.append(key, fs.createReadStream(filePath));
-    }
+  for (const [key, filePath] of files instanceof Map ? files : Object.entries(files)) {
+    const data = await fs.promises.readFile(filePath);
+    const blob = new Blob([new Uint8Array(data)]);
+    form.append(key, blob, path.basename(filePath));
   }
 
-  const resp = await httpClient.post(url, form, {
-    headers: form.getHeaders(),
+  const resp = await fetch(getRequestUrl(url), {
+    method: 'POST',
+    headers: {
+      'User-Agent': USER_AGENT,
+    },
+    body: form,
   });
-  return resp;
+  return toHttpResponse(resp);
 }

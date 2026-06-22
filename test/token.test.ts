@@ -1,4 +1,4 @@
-import { beforeEach, describe, it, expect, mock } from 'bun:test';
+import { afterAll, beforeEach, describe, it, expect, mock } from 'bun:test';
 
 const postMock = mock(() => Promise.resolve({ data: {} }));
 const uploadMock = mock(() => Promise.resolve({ data: {} }));
@@ -11,6 +11,10 @@ mock.module('../src/utils/http.js', () => ({
 const { get } = await import('../src/token');
 
 describe('token', () => {
+  afterAll(() => {
+    mock.restore();
+  });
+
   beforeEach(() => {
     postMock.mockClear();
     uploadMock.mockClear();

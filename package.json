@@ -1,6 +1,6 @@
 {
   "name": "@waywake/youzanyun-sdk",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "YouzanYun SDK for Node",
   "type": "module",
   "main": "./dist/cjs/index.js",
@@ -23,8 +23,8 @@
   ],
   "scripts": {
     "build": "bun run build:cjs && bun run build:esm",
-    "build:cjs": "bun build src/index.ts --outdir dist/cjs --target node --format cjs --external axios --external form-data && tsc -p tsconfig.cjs.json --emitDeclarationOnly && echo '{\"type\":\"commonjs\"}' > dist/cjs/package.json",
-    "build:esm": "bun build src/index.ts --outdir dist/esm --target node --format esm --external axios --external form-data && tsc -p tsconfig.esm.json --emitDeclarationOnly",
+    "build:cjs": "bun build src/index.ts --outdir dist/cjs --target node --format cjs && tsc -p tsconfig.cjs.json --emitDeclarationOnly && echo '{\"type\":\"commonjs\"}' > dist/cjs/package.json",
+    "build:esm": "bun build src/index.ts --outdir dist/esm --target node --format esm && tsc -p tsconfig.esm.json --emitDeclarationOnly",
     "clean": "rm -rf dist",
     "test": "bun test",
     "prepublishOnly": "bun run clean && bun run build"
@@ -46,11 +46,7 @@
     "url": "https://github.com/waywake/youzan-sdk-ts/issues"
   },
   "engines": {
-    "node": ">=16.0.0"
-  },
-  "dependencies": {
-    "axios": "^1.7.0",
-    "form-data": "^4.0.0"
+    "node": ">=18.0.0"
   },
   "devDependencies": {
     "@types/bun": "^1.1.0",

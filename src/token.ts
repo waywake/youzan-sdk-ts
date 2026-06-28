@@ -3,7 +3,8 @@
  */
 
 import { type AuthorizeType } from './types';
-import type { TokenParams } from './types';
+import type { TokenGetResponse, TokenParams } from './types';
+import type { HttpResponse } from './utils/http';
 import * as configHttp from './config/http';
 import * as utilHttp from './utils/http';
 
@@ -22,7 +23,7 @@ const VALID_AUTHORIZE_TYPES = new Set<AuthorizeType>([
  * 工具型应用获取 Token: authorize_type = authorization_code, 必传 code redirect_uri
  * 工具型应用/自用型应用刷新 Token: authorize_type = refresh_token, 必传 refresh_token
  */
-export function get(params: TokenParams) {
+export function get(params: TokenParams): Promise<HttpResponse<TokenGetResponse>> {
   // 公共参数校验
   if (!params || typeof params !== 'object') {
     throw new Error('参数异常: 参数缺少必要字段');
@@ -65,5 +66,5 @@ export function get(params: TokenParams) {
     urlPath = params.host + urlPath;
   }
 
-  return utilHttp.post(urlPath, params as unknown as Record<string, unknown>);
+  return utilHttp.post<TokenGetResponse>(urlPath, params as unknown as Record<string, unknown>);
 }

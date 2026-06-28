@@ -65,14 +65,14 @@ async function parseResponseBody(resp: Response): Promise<unknown> {
   return text;
 }
 
-async function toHttpResponse(resp: Response): Promise<HttpResponse> {
+async function toHttpResponse<T = unknown>(resp: Response): Promise<HttpResponse<T>> {
   const response = {
     data: await parseResponseBody(resp),
     status: resp.status,
     statusText: resp.statusText,
     headers: headersToObject(resp.headers),
     url: resp.url,
-  };
+  } as HttpResponse<T>;
 
   if (!resp.ok) {
     throw new HttpError(response);
@@ -95,7 +95,7 @@ function isFailedApiResponse(data: unknown): data is { success: false } {
  * @param url 支持绝对路径、相对路径
  * @param params POST 参数
  */
-export async function post(url: string, params?: Record<string, unknown>) {
+export async function post<T = unknown>(url: string, params?: Record<string, unknown>) {
   const resp = await fetch(getRequestUrl(url), {
     method: 'POST',
     headers: {
@@ -104,7 +104,7 @@ export async function post(url: string, params?: Record<string, unknown>) {
     },
     body: params === undefined ? undefined : JSON.stringify(params),
   });
-  return toHttpResponse(resp);
+  return toHttpResponse<T>(resp);
 }
 
 /**
@@ -113,7 +113,10 @@ export async function post(url: string, params?: Record<string, unknown>) {
  * @param url 支持绝对路径、相对路径
  * @param files 上传文件参数，支持 Map 或 Object。示例: {"image": "/path/to/filename.jpg"}
  */
-export async function upload(url: string, files: Map<string, string> | Record<string, string>) {
+export async function upload<T = unknown>(
+  url: string,
+  files: Map<string, string> | Record<string, string>,
+) {
   const form = new FormData();
 
   for (const [key, filePath] of files instanceof Map ? files : Object.entries(files)) {
@@ -129,5 +132,5 @@ export async function upload(url: string, files: Map<string, string> | Record<st
     },
     body: form,
   });
-  return toHttpResponse(resp);
+  return toHttpResponse<T>(resp);
 }

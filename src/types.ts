@@ -36,6 +36,23 @@ export type TokenParams =
   | AuthorizationCodeTokenParams
   | RefreshTokenParams;
 
+/** Token 响应数据 */
+export interface TokenData {
+  access_token: string;
+  expires: number;
+  scope: string;
+  authority_id?: number;
+  refresh_token?: string;
+}
+
+/** Token 接口响应体 */
+export interface TokenGetResponse {
+  success: boolean;
+  code?: number;
+  message?: string;
+  data: TokenData;
+}
+
 // ===== Client 模块类型 =====
 
 /** API 调用配置 */

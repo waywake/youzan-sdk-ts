@@ -67,6 +67,35 @@ describe('utils/http', () => {
     });
   });
 
+  it('post should reject youzan api errors returned with 2xx status', async () => {
+    const data = {
+      trace_id: 'yz7-0a34f85c-1782617275912-355713',
+      code: 223014001,
+      success: false,
+      message: '单据明细出库量超出库存值,商品条码:6973763345449',
+    };
+
+    globalThis.fetch = mock(() =>
+      Promise.resolve(
+        new Response(JSON.stringify(data), {
+          status: 200,
+          statusText: 'OK',
+          headers: { 'content-type': 'application/json' },
+        }),
+      ),
+    ) as unknown as typeof fetch;
+
+    await expect(post('/api/test', {})).rejects.toMatchObject({
+      name: 'YouzanApiError',
+      message: data.message,
+      response: {
+        data,
+        status: 200,
+        statusText: 'OK',
+      },
+    });
+  });
+
   it('upload should send files with native FormData', async () => {
     const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'youzan-sdk-'));
     const filePath = path.join(tmpDir, 'pic.txt');

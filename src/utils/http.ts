@@ -26,6 +26,19 @@ export class HttpError<T = unknown> extends Error {
   }
 }
 
+export class YouzanApiError<T = unknown> extends Error {
+  response: HttpResponse<T>;
+
+  constructor(response: HttpResponse<T>) {
+    const data = response.data as Record<string, unknown>;
+    const message = typeof data.message === 'string' ? data.message : 'Youzan API request failed';
+
+    super(message);
+    this.name = 'YouzanApiError';
+    this.response = response;
+  }
+}
+
 function getRequestUrl(url: string): string {
   return new URL(url, configHttp.getBaseUrl()).toString();
 }
@@ -65,7 +78,15 @@ async function toHttpResponse(resp: Response): Promise<HttpResponse> {
     throw new HttpError(response);
   }
 
+  if (isFailedApiResponse(response.data)) {
+    throw new YouzanApiError(response);
+  }
+
   return response;
+}
+
+function isFailedApiResponse(data: unknown): data is { success: false } {
+  return typeof data === 'object' && data !== null && 'success' in data && data.success === false;
 }
 
 /**

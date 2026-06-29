@@ -43,6 +43,7 @@ export type {
   YouzanApiMap,
   YouzanApiMethod,
   YouzanApiVersion,
+  YouzanApiKnownVersion,
   YouzanApiParams,
   YouzanApiResponse,
 } from './api-types';

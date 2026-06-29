@@ -55,6 +55,8 @@ export interface TokenGetResponse {
 
 // ===== Client 模块类型 =====
 
+type LiteralStringUnion<T extends string> = T | (string & Record<never, never>);
+
 /** API 调用配置 */
 export interface ClientConfig {
   /** 是否使用富文本接口 */
@@ -63,10 +65,10 @@ export interface ClientConfig {
 
 /** API 调用参数 */
 export interface ApiCallParams {
-  /** 接口名称，如 'youzan.trade.get'（必传） */
-  api: string;
-  /** 接口版本，如 '4.0.0'（必传） */
-  version: string;
+  /** 接口名称，如 'youzan.trade.get'（必传，已收录接口支持补全） */
+  api: LiteralStringUnion<import('./api-types').YouzanApiMethod>;
+  /** 接口版本，如 '4.0.0'（必传，已收录版本支持补全） */
+  version: LiteralStringUnion<import('./api-types').YouzanApiKnownVersion>;
   /** OAuth access token（免登接口可不传） */
   token?: string;
   /** 请求参数 */

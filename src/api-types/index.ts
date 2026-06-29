@@ -30,6 +30,10 @@ export type YouzanApiMethod = keyof YouzanApiMap;
 export type YouzanApiVersion<TMethod extends YouzanApiMethod> =
   keyof YouzanApiMap[TMethod] & string;
 
+export type YouzanApiKnownVersion = {
+  [TMethod in YouzanApiMethod]: YouzanApiVersion<TMethod>;
+}[YouzanApiMethod];
+
 export type YouzanApiParams<
   TMethod extends YouzanApiMethod,
   TVersion extends YouzanApiVersion<TMethod>,

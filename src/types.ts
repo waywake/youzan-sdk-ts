@@ -78,3 +78,21 @@ export interface ApiCallParams {
   /** 自定义主机地址 */
   host?: string;
 }
+
+type RequiredKeys<T> = {
+  [K in keyof T]-?: {} extends Pick<T, K> ? never : K;
+}[keyof T];
+
+type ParamsProperty<TParams> = RequiredKeys<TParams> extends never
+  ? { params?: TParams }
+  : { params: TParams };
+
+export type TypedApiCallParams<
+  TMethod extends import('./api-types').YouzanApiMethod,
+  TVersion extends import('./api-types').YouzanApiVersion<TMethod>,
+> = Omit<ApiCallParams, 'api' | 'version' | 'params'> & {
+  /** 接口名称 */
+  api: TMethod;
+  /** 接口版本 */
+  version: TVersion;
+} & ParamsProperty<import('./api-types').YouzanApiParams<TMethod, TVersion>>;

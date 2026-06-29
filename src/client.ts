@@ -2,7 +2,9 @@
  * API 调用客户端
  */
 
-import type { ApiCallParams } from './types';
+import type { YouzanApiMethod, YouzanApiResponse, YouzanApiVersion } from './api-types';
+import type { ApiCallParams, TypedApiCallParams } from './types';
+import type { HttpResponse } from './utils/http';
 import * as configHttp from './config/http';
 import * as utilHttp from './utils/http';
 
@@ -20,7 +22,14 @@ function hasFiles(files: Map<string, string> | Record<string, string> | undefine
  *
  * @param apiParam 接口调用参数 { api, version, token?, params?, files?, config?, host? }
  */
-export function call(apiParam: ApiCallParams) {
+export function call<
+  TMethod extends YouzanApiMethod,
+  TVersion extends YouzanApiVersion<TMethod>,
+>(
+  apiParam: TypedApiCallParams<TMethod, TVersion>,
+): Promise<HttpResponse<YouzanApiResponse<TMethod, TVersion>>>;
+export function call(apiParam: ApiCallParams): Promise<HttpResponse<unknown>>;
+export function call(apiParam: ApiCallParams | TypedApiCallParams<any, any>): Promise<HttpResponse<any>> {
   if (!apiParam || typeof apiParam !== 'object') {
     throw new Error('参数异常: api 必传');
   }
@@ -51,5 +60,5 @@ export function call(apiParam: ApiCallParams) {
   }
 
   // 普通调用
-  return utilHttp.post(urlPath, apiParam.params);
+  return utilHttp.post(urlPath, apiParam.params as Record<string, unknown> | undefined);
 }

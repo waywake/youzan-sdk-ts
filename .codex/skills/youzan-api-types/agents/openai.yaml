@@ -1,0 +1,4 @@
+interface:
+  display_name: "Youzan API Types"
+  short_description: "Generate TS types from Youzan API docs"
+  default_prompt: "Use $youzan-api-types to generate SDK TypeScript types from this Youzan API documentation link."

@@ -11,6 +11,7 @@ import type { YouzanRetailOpenAllotOrderCreateV100ApiMapEntry } from './youzan-r
 import type { YouzanRetailOpenApplyorderGetV300ApiMapEntry } from './youzan-retail-open-applyorder-get-v300';
 import type { YouzanRetailOpenAllotorderGetV300ApiMapEntry } from './youzan-retail-open-allotorder-get-v300';
 import type { YouzanRetailOpenSpuGetV300ApiMapEntry } from './youzan-retail-open-spu-get-v300';
+import type { YouzanItemDetailGetV101ApiMapEntry } from './youzan-item-detail-get-v101';
 
 export type { YouzanApiSuccessResponse, YouzanLong } from './common';
 export type * from './retail-open-spu-query-v300';
@@ -19,6 +20,7 @@ export type * from './youzan-retail-open-allot-order-create-v100';
 export type * from './youzan-retail-open-applyorder-get-v300';
 export type * from './youzan-retail-open-allotorder-get-v300';
 export type * from './youzan-retail-open-spu-get-v300';
+export type * from './youzan-item-detail-get-v101';
 
 export interface YouzanApiMap
   extends RetailOpenSpuQueryV300ApiMapEntry,
@@ -26,7 +28,8 @@ export interface YouzanApiMap
     YouzanRetailOpenAllotOrderCreateV100ApiMapEntry,
     YouzanRetailOpenApplyorderGetV300ApiMapEntry,
     YouzanRetailOpenAllotorderGetV300ApiMapEntry,
-    YouzanRetailOpenSpuGetV300ApiMapEntry {}
+    YouzanRetailOpenSpuGetV300ApiMapEntry,
+    YouzanItemDetailGetV101ApiMapEntry {}
 
 export type YouzanApiMethod = keyof YouzanApiMap;
 

@@ -12,6 +12,8 @@ export { decrypt } from './crypto';
 export type {
   AuthorizeType,
   ApiCallParams,
+  KnownApiCallParams,
+  UntypedApiCallParams,
   TypedApiCallParams,
   TokenParams,
   SilentTokenParams,

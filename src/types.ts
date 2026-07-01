@@ -63,16 +63,9 @@ export interface ClientConfig {
   isRichText?: boolean;
 }
 
-/** API 调用参数 */
-export interface ApiCallParams {
-  /** 接口名称，如 'youzan.trade.get'（必传，已收录接口支持补全） */
-  api: LiteralStringUnion<import('./api-types').YouzanApiMethod>;
-  /** 接口版本，如 '4.0.0'（必传，已收录版本支持补全） */
-  version: LiteralStringUnion<import('./api-types').YouzanApiKnownVersion>;
+interface ApiCallBase {
   /** OAuth access token（免登接口可不传） */
   token?: string;
-  /** 请求参数 */
-  params?: Record<string, unknown>;
   /** 上传文件：字段名到文件路径的映射 */
   files?: Map<string, string> | Record<string, string>;
   /** 额外配置 */
@@ -80,6 +73,19 @@ export interface ApiCallParams {
   /** 自定义主机地址 */
   host?: string;
 }
+
+/** API 调用参数。未知或未收录接口的 params 按 Record 处理。 */
+export interface ApiCallParams extends ApiCallBase {
+  /** 接口名称，如 'youzan.trade.get'（已收录接口支持补全） */
+  api: LiteralStringUnion<import('./api-types').YouzanApiMethod>;
+  /** 接口版本，如 '4.0.0'（已收录版本支持补全） */
+  version: LiteralStringUnion<import('./api-types').YouzanApiKnownVersion>;
+  /** 请求参数 */
+  params?: Record<string, unknown>;
+}
+
+/** 未收录 API 调用参数。 */
+export type UntypedApiCallParams = ApiCallParams;
 
 type RequiredKeys<T> = {
   [K in keyof T]-?: {} extends Pick<T, K> ? never : K;
@@ -92,9 +98,33 @@ type ParamsProperty<TParams> = RequiredKeys<TParams> extends never
 export type TypedApiCallParams<
   TMethod extends import('./api-types').YouzanApiMethod,
   TVersion extends import('./api-types').YouzanApiVersion<TMethod>,
-> = Omit<ApiCallParams, 'api' | 'version' | 'params'> & {
+> = ApiCallBase & {
   /** 接口名称 */
   api: TMethod;
   /** 接口版本 */
   version: TVersion;
 } & ParamsProperty<import('./api-types').YouzanApiParams<TMethod, TVersion>>;
+
+/** 已收录 API 调用参数。api + version 会约束 params。 */
+export type KnownApiCallParams = {
+  [TMethod in import('./api-types').YouzanApiMethod]: {
+    [TVersion in import('./api-types').YouzanApiVersion<TMethod>]: TypedApiCallParams<
+      TMethod,
+      TVersion
+    >;
+  }[import('./api-types').YouzanApiVersion<TMethod>];
+}[import('./api-types').YouzanApiMethod];
+
+export type ApiCallInput<TMethod extends string, TVersion extends string> =
+  TMethod extends import('./api-types').YouzanApiMethod
+    ? TVersion extends import('./api-types').YouzanApiVersion<TMethod>
+      ? TypedApiCallParams<TMethod, TVersion>
+      : UntypedApiCallParams & { api: TMethod; version: TVersion }
+    : UntypedApiCallParams & { api: TMethod; version: TVersion };
+
+export type ApiCallResult<TMethod extends string, TVersion extends string> =
+  TMethod extends import('./api-types').YouzanApiMethod
+    ? TVersion extends import('./api-types').YouzanApiVersion<TMethod>
+      ? import('./api-types').YouzanApiResponse<TMethod, TVersion>
+      : unknown
+    : unknown;

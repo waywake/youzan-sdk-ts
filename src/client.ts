@@ -2,11 +2,22 @@
  * API 调用客户端
  */
 
-import type { YouzanApiMethod, YouzanApiResponse, YouzanApiVersion } from './api-types';
-import type { ApiCallParams, TypedApiCallParams } from './types';
+import type { ApiCallInput, ApiCallResult } from './types';
 import type { HttpResponse } from './utils/http';
 import * as configHttp from './config/http';
 import * as utilHttp from './utils/http';
+
+interface RuntimeApiCallParams {
+  api?: string;
+  version?: string;
+  token?: string;
+  params?: unknown;
+  files?: Map<string, string> | Record<string, string>;
+  config?: {
+    isRichText?: boolean;
+  };
+  host?: string;
+}
 
 /**
  * 判断文件集合是否非空
@@ -22,14 +33,12 @@ function hasFiles(files: Map<string, string> | Record<string, string> | undefine
  *
  * @param apiParam 接口调用参数 { api, version, token?, params?, files?, config?, host? }
  */
-export function call<
-  TMethod extends YouzanApiMethod,
-  TVersion extends YouzanApiVersion<TMethod>,
->(
-  apiParam: TypedApiCallParams<TMethod, TVersion>,
-): Promise<HttpResponse<YouzanApiResponse<TMethod, TVersion>>>;
-export function call(apiParam: ApiCallParams): Promise<HttpResponse<unknown>>;
-export function call(apiParam: ApiCallParams | TypedApiCallParams<any, any>): Promise<HttpResponse<any>> {
+export function call<TMethod extends string, TVersion extends string>(
+  apiParam: ApiCallInput<TMethod, TVersion>,
+): Promise<HttpResponse<ApiCallResult<TMethod, TVersion>>>;
+export function call(
+  apiParam: RuntimeApiCallParams | null | undefined,
+): Promise<HttpResponse<any>> {
   if (!apiParam || typeof apiParam !== 'object') {
     throw new Error('参数异常: api 必传');
   }

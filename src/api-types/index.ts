@@ -71,6 +71,7 @@ import type { YouzanRetailOpenRefundorderGetV300ApiMapEntry } from './youzan-ret
 import type { YouzanRetailOpenRefundorderQueryV300ApiMapEntry } from './youzan-retail-open-refundorder-query-v300';
 import type { YouzanTradeRefundSearchV301ApiMapEntry } from './youzan-trade-refund-search-v301';
 import type { YouzanTradeRefundAmountGetV100ApiMapEntry } from './youzan-trade-refund-amount-get-v100';
+import type { YouzanRetailOpenChainstaffQuerypageV100ApiMapEntry } from './youzan-retail-open-chainstaff-querypage-v100';
 
 export type { YouzanApiSuccessResponse, YouzanLong } from './common';
 export type * from './retail-open-spu-query-v300';
@@ -139,6 +140,7 @@ export type * from './youzan-retail-open-refundorder-get-v300';
 export type * from './youzan-retail-open-refundorder-query-v300';
 export type * from './youzan-trade-refund-search-v301';
 export type * from './youzan-trade-refund-amount-get-v100';
+export type * from './youzan-retail-open-chainstaff-querypage-v100';
 
 export interface YouzanApiMap
   extends RetailOpenSpuQueryV300ApiMapEntry,
@@ -206,7 +208,8 @@ export interface YouzanApiMap
     YouzanRetailOpenRefundorderGetV300ApiMapEntry,
     YouzanRetailOpenRefundorderQueryV300ApiMapEntry,
     YouzanTradeRefundSearchV301ApiMapEntry,
-    YouzanTradeRefundAmountGetV100ApiMapEntry {}
+    YouzanTradeRefundAmountGetV100ApiMapEntry,
+    YouzanRetailOpenChainstaffQuerypageV100ApiMapEntry {}
 
 export type YouzanApiMethod = keyof YouzanApiMap;
 

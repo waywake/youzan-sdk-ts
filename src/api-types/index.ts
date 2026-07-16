@@ -22,6 +22,7 @@ import type { YouzanShopSingleStaffUpdateDisableV100ApiMapEntry } from './youzan
 import type { YouzanShopSingleStaffListPageV100ApiMapEntry } from './youzan-shop-single-staff-list-page-v100';
 import type { YouzanShopSingleStaffGetV100ApiMapEntry } from './youzan-shop-single-staff-get-v100';
 import type { YouzanShopSingleStaffAddV100ApiMapEntry } from './youzan-shop-single-staff-add-v100';
+import type { YouzanShopStaffGetDetailV101ApiMapEntry } from './youzan-shop-staff-get-detail-v101';
 import type { YouzanItemCommonUpdateV100ApiMapEntry } from './youzan-item-common-update-v100';
 import type { YouzanRetailOpenPurchaseorderCreateV300ApiMapEntry } from './youzan-retail-open-purchaseorder-create-v300';
 import type { YouzanRetailOpenPurchaseorderGetV300ApiMapEntry } from './youzan-retail-open-purchaseorder-get-v300';
@@ -89,6 +90,7 @@ export type * from './youzan-shop-single-staff-update-disable-v100';
 export type * from './youzan-shop-single-staff-list-page-v100';
 export type * from './youzan-shop-single-staff-get-v100';
 export type * from './youzan-shop-single-staff-add-v100';
+export type * from './youzan-shop-staff-get-detail-v101';
 export type * from './youzan-item-common-update-v100';
 export type * from './youzan-retail-open-purchaseorder-create-v300';
 export type * from './youzan-retail-open-purchaseorder-get-v300';
@@ -156,6 +158,7 @@ export interface YouzanApiMap
     YouzanShopSingleStaffListPageV100ApiMapEntry,
     YouzanShopSingleStaffGetV100ApiMapEntry,
     YouzanShopSingleStaffAddV100ApiMapEntry,
+    YouzanShopStaffGetDetailV101ApiMapEntry,
     YouzanItemCommonUpdateV100ApiMapEntry,
     YouzanRetailOpenPurchaseorderCreateV300ApiMapEntry,
     YouzanRetailOpenPurchaseorderGetV300ApiMapEntry,

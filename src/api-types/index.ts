@@ -46,6 +46,30 @@ import type { YouzanRetailOpenDeliveryorderGetV300ApiMapEntry } from './youzan-r
 import type { YouzanRetailOpenDeliveryorderQueryV300ApiMapEntry } from './youzan-retail-open-deliveryorder-query-v300';
 import type { YouzanShopChainDescendentOrganizationListV101ApiMapEntry } from './youzan-shop-chain-descendent-organization-list-v101';
 import type { YouzanWecomStaffSearchV100ApiMapEntry } from './youzan-wecom-staff-search-v100';
+import type { YouzanScrmCustomerDetailGetV101ApiMapEntry } from './youzan-scrm-customer-detail-get-v101';
+import type { YouzanScrmCustomerListYzopenidV100ApiMapEntry } from './youzan-scrm-customer-list-yzopenid-v100';
+import type { YouzanScrmCustomerListV100ApiMapEntry } from './youzan-scrm-customer-list-v100';
+import type { YouzanCrmCustomerPointsOperateFreezeandconsumeV400ApiMapEntry } from './youzan-crm-customer-points-operate-freezeandconsume-v400';
+import type { YouzanCrmCustomerPointsOperateConsumeV400ApiMapEntry } from './youzan-crm-customer-points-operate-consume-v400';
+import type { YouzanScrmCustomerPointsRuleListV100ApiMapEntry } from './youzan-scrm-customer-points-rule-list-v100';
+import type { YouzanCrmCustomerPointsOperateFreezeV400ApiMapEntry } from './youzan-crm-customer-points-operate-freeze-v400';
+import type { YouzanCrmCustomerPointsOperateIncreasewithexpireV400ApiMapEntry } from './youzan-crm-customer-points-operate-increasewithexpire-v400';
+import type { YouzanCrmCustomerPointsIncreaseV400ApiMapEntry } from './youzan-crm-customer-points-increase-v400';
+import type { YouzanCrmCustomerPointsGetV100ApiMapEntry } from './youzan-crm-customer-points-get-v100';
+import type { YouzanCrmCustomerPointsDecreaseV400ApiMapEntry } from './youzan-crm-customer-points-decrease-v400';
+import type { YouzanCrmCustomerPointsSyncV400ApiMapEntry } from './youzan-crm-customer-points-sync-v400';
+import type { YouzanUmpPointdeductionUpdateOpenstatusV100ApiMapEntry } from './youzan-ump-pointdeduction-update-openstatus-v100';
+import type { YouzanCrmCustomerPointsChangelogSearchV402ApiMapEntry } from './youzan-crm-customer-points-changelog-search-v402';
+import type { YouzanScrmPointdeductionGetV100ApiMapEntry } from './youzan-scrm-pointdeduction-get-v100';
+import type { YouzanCrmCustomerPointstoreExchangeRecordsV200ApiMapEntry } from './youzan-crm-customer-pointstore-exchange-records-v200';
+import type { YouzanCrmCustomerPointsOperateUnfreezeV400ApiMapEntry } from './youzan-crm-customer-points-operate-unfreeze-v400';
+import type { YouzanCrmCustomerPointsOperateRevertV400ApiMapEntry } from './youzan-crm-customer-points-operate-revert-v400';
+import type { YouzanTradeMemoUpdateV300ApiMapEntry } from './youzan-trade-memo-update-v300';
+import type { YouzanTradeRefundGetV301ApiMapEntry } from './youzan-trade-refund-get-v301';
+import type { YouzanRetailOpenRefundorderGetV300ApiMapEntry } from './youzan-retail-open-refundorder-get-v300';
+import type { YouzanRetailOpenRefundorderQueryV300ApiMapEntry } from './youzan-retail-open-refundorder-query-v300';
+import type { YouzanTradeRefundSearchV301ApiMapEntry } from './youzan-trade-refund-search-v301';
+import type { YouzanTradeRefundAmountGetV100ApiMapEntry } from './youzan-trade-refund-amount-get-v100';
 
 export type { YouzanApiSuccessResponse, YouzanLong } from './common';
 export type * from './retail-open-spu-query-v300';
@@ -89,6 +113,30 @@ export type * from './youzan-retail-open-deliveryorder-get-v300';
 export type * from './youzan-retail-open-deliveryorder-query-v300';
 export type * from './youzan-shop-chain-descendent-organization-list-v101';
 export type * from './youzan-wecom-staff-search-v100';
+export type * from './youzan-scrm-customer-detail-get-v101';
+export type * from './youzan-scrm-customer-list-yzopenid-v100';
+export type * from './youzan-scrm-customer-list-v100';
+export type * from './youzan-crm-customer-points-operate-freezeandconsume-v400';
+export type * from './youzan-crm-customer-points-operate-consume-v400';
+export type * from './youzan-scrm-customer-points-rule-list-v100';
+export type * from './youzan-crm-customer-points-operate-freeze-v400';
+export type * from './youzan-crm-customer-points-operate-increasewithexpire-v400';
+export type * from './youzan-crm-customer-points-increase-v400';
+export type * from './youzan-crm-customer-points-get-v100';
+export type * from './youzan-crm-customer-points-decrease-v400';
+export type * from './youzan-crm-customer-points-sync-v400';
+export type * from './youzan-ump-pointdeduction-update-openstatus-v100';
+export type * from './youzan-crm-customer-points-changelog-search-v402';
+export type * from './youzan-scrm-pointdeduction-get-v100';
+export type * from './youzan-crm-customer-pointstore-exchange-records-v200';
+export type * from './youzan-crm-customer-points-operate-unfreeze-v400';
+export type * from './youzan-crm-customer-points-operate-revert-v400';
+export type * from './youzan-trade-memo-update-v300';
+export type * from './youzan-trade-refund-get-v301';
+export type * from './youzan-retail-open-refundorder-get-v300';
+export type * from './youzan-retail-open-refundorder-query-v300';
+export type * from './youzan-trade-refund-search-v301';
+export type * from './youzan-trade-refund-amount-get-v100';
 
 export interface YouzanApiMap
   extends RetailOpenSpuQueryV300ApiMapEntry,
@@ -131,7 +179,31 @@ export interface YouzanApiMap
     YouzanRetailOpenDeliveryorderGetV300ApiMapEntry,
     YouzanRetailOpenDeliveryorderQueryV300ApiMapEntry,
     YouzanShopChainDescendentOrganizationListV101ApiMapEntry,
-    YouzanWecomStaffSearchV100ApiMapEntry {}
+    YouzanWecomStaffSearchV100ApiMapEntry,
+    YouzanScrmCustomerDetailGetV101ApiMapEntry,
+    YouzanScrmCustomerListYzopenidV100ApiMapEntry,
+    YouzanScrmCustomerListV100ApiMapEntry,
+    YouzanCrmCustomerPointsOperateFreezeandconsumeV400ApiMapEntry,
+    YouzanCrmCustomerPointsOperateConsumeV400ApiMapEntry,
+    YouzanScrmCustomerPointsRuleListV100ApiMapEntry,
+    YouzanCrmCustomerPointsOperateFreezeV400ApiMapEntry,
+    YouzanCrmCustomerPointsOperateIncreasewithexpireV400ApiMapEntry,
+    YouzanCrmCustomerPointsIncreaseV400ApiMapEntry,
+    YouzanCrmCustomerPointsGetV100ApiMapEntry,
+    YouzanCrmCustomerPointsDecreaseV400ApiMapEntry,
+    YouzanCrmCustomerPointsSyncV400ApiMapEntry,
+    YouzanUmpPointdeductionUpdateOpenstatusV100ApiMapEntry,
+    YouzanCrmCustomerPointsChangelogSearchV402ApiMapEntry,
+    YouzanScrmPointdeductionGetV100ApiMapEntry,
+    YouzanCrmCustomerPointstoreExchangeRecordsV200ApiMapEntry,
+    YouzanCrmCustomerPointsOperateUnfreezeV400ApiMapEntry,
+    YouzanCrmCustomerPointsOperateRevertV400ApiMapEntry,
+    YouzanTradeMemoUpdateV300ApiMapEntry,
+    YouzanTradeRefundGetV301ApiMapEntry,
+    YouzanRetailOpenRefundorderGetV300ApiMapEntry,
+    YouzanRetailOpenRefundorderQueryV300ApiMapEntry,
+    YouzanTradeRefundSearchV301ApiMapEntry,
+    YouzanTradeRefundAmountGetV100ApiMapEntry {}
 
 export type YouzanApiMethod = keyof YouzanApiMap;
 

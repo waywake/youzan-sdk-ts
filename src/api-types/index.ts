@@ -45,6 +45,7 @@ import type { YouzanRetailOpenStockModeQueryV100ApiMapEntry } from './youzan-ret
 import type { YouzanRetailOpenDeliveryorderGetV300ApiMapEntry } from './youzan-retail-open-deliveryorder-get-v300';
 import type { YouzanRetailOpenDeliveryorderQueryV300ApiMapEntry } from './youzan-retail-open-deliveryorder-query-v300';
 import type { YouzanShopChainDescendentOrganizationListV101ApiMapEntry } from './youzan-shop-chain-descendent-organization-list-v101';
+import type { YouzanWecomStaffSearchV100ApiMapEntry } from './youzan-wecom-staff-search-v100';
 
 export type { YouzanApiSuccessResponse, YouzanLong } from './common';
 export type * from './retail-open-spu-query-v300';
@@ -87,6 +88,7 @@ export type * from './youzan-retail-open-stock-mode-query-v100';
 export type * from './youzan-retail-open-deliveryorder-get-v300';
 export type * from './youzan-retail-open-deliveryorder-query-v300';
 export type * from './youzan-shop-chain-descendent-organization-list-v101';
+export type * from './youzan-wecom-staff-search-v100';
 
 export interface YouzanApiMap
   extends RetailOpenSpuQueryV300ApiMapEntry,
@@ -128,7 +130,8 @@ export interface YouzanApiMap
     YouzanRetailOpenStockModeQueryV100ApiMapEntry,
     YouzanRetailOpenDeliveryorderGetV300ApiMapEntry,
     YouzanRetailOpenDeliveryorderQueryV300ApiMapEntry,
-    YouzanShopChainDescendentOrganizationListV101ApiMapEntry {}
+    YouzanShopChainDescendentOrganizationListV101ApiMapEntry,
+    YouzanWecomStaffSearchV100ApiMapEntry {}
 
 export type YouzanApiMethod = keyof YouzanApiMap;
 

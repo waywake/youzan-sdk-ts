@@ -128,3 +128,143 @@ export type ApiCallResult<TMethod extends string, TVersion extends string> =
       ? import('./api-types').YouzanApiResponse<TMethod, TVersion>
       : unknown
     : unknown;
+
+/** 获取 access token 的方法 */
+export type AccessTokenProvider = () => string | Promise<string>;
+
+/** Client 实例配置 */
+export interface ClientOptions {
+  /** 获取 OAuth access token 的方法 */
+  getToken?: AccessTokenProvider;
+  /** 默认自定义主机地址 */
+  host?: string;
+}
+
+/** Client 实例通用 API 调用参数 */
+export interface ClientCallParams extends Omit<ApiCallParams, 'token' | 'host'> {
+  /** OAuth access token；不传时使用 Client 实例的 getToken */
+  token?: string;
+  /** 自定义主机地址；不传时使用 Client 实例的 host */
+  host?: string;
+  /** 是否调用免登接口；为 true 时不注入 token */
+  authExempt?: boolean;
+}
+
+/** Client 实例固定 API 调用选项 */
+export interface ClientTokenApiOptions {
+  /** OAuth access token；不传时使用 Client 实例的 getToken */
+  token?: string;
+  /** 自定义主机地址；不传时使用 Client 实例的 host */
+  host?: string;
+}
+
+/** 固定 API 封装定义 */
+export interface ApiDefinition {
+  /** 接口名称，如 'youzan.trade.get' */
+  api: string;
+  /** 接口版本，如 '4.0.0' */
+  version: string;
+  /** 额外配置 */
+  config?: ClientConfig;
+}
+
+/** Token 类固定 API 封装调用参数 */
+export interface TokenApiCallParams<TParams extends Record<string, unknown> = Record<string, unknown>> {
+  /** OAuth access token（必传） */
+  token: string;
+  /** 请求参数 */
+  params?: TParams;
+  /** 自定义主机地址 */
+  host?: string;
+}
+
+/** 订单批量查询接口订单状态 */
+export type TradesSoldGetStatus =
+  | 'WAIT_BUYER_PAY'
+  | 'WAIT_SELLER_SEND_GOODS'
+  | 'WAIT_BUYER_CONFIRM_GOODS'
+  | 'TRADE_SUCCESS'
+  | 'TRADE_CLOSE'
+  | 'TRADE_REFUND';
+
+/** 订单批量查询接口物流类型 */
+export type TradesSoldGetExpressType =
+  | 'LOCAL_DELIVERY'
+  | 'SELF_FETCH'
+  | 'EXPRESS';
+
+/** 订单批量查询接口订单类型 */
+export type TradesSoldGetType =
+  | 'NORMAL'
+  | 'PEERPAY'
+  | 'GIFT'
+  | 'FX_CAIGOUDAN'
+  | 'PRESENT'
+  | 'WISH'
+  | 'QRCODE'
+  | 'QRCODE_3RD'
+  | 'FX_MERGED'
+  | 'VERIFIED'
+  | 'PINJIAN'
+  | 'REBATE'
+  | 'FX_QUANYUANDIAN'
+  | 'FX_DEPOSIT'
+  | 'PF'
+  | 'GROUP'
+  | 'HOTEL'
+  | 'TAKE_AWAY'
+  | 'CATERING_OFFLINE'
+  | 'CATERING_QRCODE'
+  | 'BEAUTY_APPOINTMENT'
+  | 'BEAUTY_SERVICE'
+  | 'KNOWLEDGE_PAY'
+  | 'GIFT_CARD';
+
+/** 订单批量查询接口请求参数 */
+export interface TradesSoldGetParams extends Record<string, unknown> {
+  /** 通用搜索字段：订单号、收货人手机号、收货人手机号后四位等 */
+  keywords?: string;
+  /** 维权状态 */
+  feedback_desc?: string[];
+  /** 有赞对外统一 openId */
+  yz_open_id?: string;
+  /** 订单类型 */
+  type?: TradesSoldGetType | string;
+  /** 页码，最大不超过 100 */
+  page_no?: number;
+  /** 每页条数，默认 20，最大不超过 100 */
+  page_size?: number;
+  /** 按订单创建时间开始，格式: yyyy-MM-dd HH:mm:ss */
+  start_created?: string;
+  /** 按订单创建时间结束，格式: yyyy-MM-dd HH:mm:ss */
+  end_created?: string;
+  /** 按订单更新时间开始，格式: yyyy-MM-dd HH:mm:ss */
+  start_update?: string;
+  /** 按订单更新时间结束，格式: yyyy-MM-dd HH:mm:ss */
+  end_update?: string;
+  /** 按订单完成时间开始，格式: yyyy-MM-dd HH:mm:ss */
+  start_success?: string;
+  /** 按订单完成时间结束，格式: yyyy-MM-dd HH:mm:ss */
+  end_success?: string;
+  /** 同城送预计送达时间-开始时间，格式: yyyy-MM-dd HH:mm:ss */
+  delivery_start_time?: string;
+  /** 同城送预计送达时间-结束时间，格式: yyyy-MM-dd HH:mm:ss */
+  delivery_end_time?: string;
+  /** 订单状态 */
+  status?: TradesSoldGetStatus | string;
+  /** 订单号 */
+  tid?: string;
+  /** 商品 ID */
+  goods_id?: number | string;
+  /** 物流类型 */
+  express_type?: TradesSoldGetExpressType | string;
+  /** 门店 ID/网点 ID */
+  offline_id?: number | string;
+  /** 加星数量 */
+  star?: number[];
+  /** 退款状态 */
+  refund_state?: number | string;
+}
+
+/** 订单批量查询接口调用参数 */
+export interface TradesSoldGetCallParams extends TokenApiCallParams<TradesSoldGetParams> {}

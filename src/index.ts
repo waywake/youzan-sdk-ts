@@ -5,7 +5,8 @@
  * import { client, token, crypto } from '@waywake/youzanyun-sdk';
  */
 
-export { call } from './client';
+export { Client, call, createTokenApiCaller, tradesSoldGet } from './client';
+export { apiDefinitions } from './api-definitions';
 export { get } from './token';
 export { decrypt } from './crypto';
 
@@ -16,6 +17,12 @@ export type {
   UntypedApiCallParams,
   TypedApiCallParams,
   TokenParams,
+  AccessTokenProvider,
+  ApiDefinition,
+  ClientCallParams,
+  ClientOptions,
+  ClientTokenApiOptions,
+  TokenApiCallParams,
   SilentTokenParams,
   AuthorizationCodeTokenParams,
   RefreshTokenParams,
@@ -407,6 +414,13 @@ export type {
   YouzanApiParams,
   YouzanApiResponse,
 } from './api-types';
+export type {
+  TradesSoldGetCallParams,
+  TradesSoldGetExpressType,
+  TradesSoldGetParams,
+  TradesSoldGetStatus,
+  TradesSoldGetType,
+} from './types';
 
 import * as client from './client';
 import * as token from './token';

@@ -66,6 +66,33 @@ const resp = youzanyun.token.get({
 
 ### 2. 接口调用
 
+#### Client 实例方式
+
+```node
+const youzanyun = require('@waywake/youzanyun-sdk');
+
+const client = new youzanyun.Client({
+  getToken: async () => 'YOUR_TOKEN',
+});
+
+const resp = await client.tradesSoldGet({
+  start_created: '2026-06-01 00:00:00',
+  end_created: '2026-06-01 23:59:59',
+  page_no: 1,
+  page_size: 20,
+});
+```
+
+调用免登接口时，可通过 `authExempt` 跳过 token 注入：
+
+```node
+const resp = await client.call({
+  api: 'youzan.shop.get',
+  version: '3.0.0',
+  authExempt: true,
+});
+```
+
 #### Token方式
 
 ```node
@@ -98,6 +125,28 @@ const resp = youzanyun.client.call({
   files,
 });
 ```
+
+#### 订单批量查询
+
+```node
+const youzanyun = require('@waywake/youzanyun-sdk');
+
+const token = 'YOUR_TOKEN';
+
+const resp = youzanyun.client.tradesSoldGet({
+  token,
+  params: {
+    start_created: '2026-06-01 00:00:00',
+    end_created: '2026-06-01 23:59:59',
+    page_no: 1,
+    page_size: 20,
+  },
+});
+```
+
+#### 新增接口封装
+
+固定 API 封装统一通过 `createTokenApiCaller` 生成。新增接口时，将接口名和版本写入 `src/api-definitions.ts`，在 `src/types.ts` 增加参数类型，再用该参数类型生成对应方法。
 
 ### 3. 消息解密
 

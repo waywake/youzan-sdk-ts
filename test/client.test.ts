@@ -8,7 +8,7 @@ mock.module('../src/utils/http.js', () => ({
   upload: uploadMock,
 }));
 
-const { call } = await import('../src/client');
+const { Client, call, tradesSoldGet } = await import('../src/client');
 
 describe('client', () => {
   afterAll(() => {
@@ -91,6 +91,65 @@ describe('client', () => {
     await result;
     expect(postMock.mock.calls).toEqual([
       ['/api/_textarea_/youzan.shop.get/3.0.0', { id: 'aa' }],
+    ]);
+  });
+
+  it('should call trades sold get api with fixed version', async () => {
+    const params = {
+      start_created: '2026-06-01 00:00:00',
+      end_created: '2026-06-01 23:59:59',
+      page_no: 1,
+      page_size: 20,
+    };
+
+    const result = tradesSoldGet({ token: 'ddd', params });
+    expect(result instanceof Promise).toBe(true);
+    await result;
+    expect(postMock.mock.calls).toEqual([
+      ['/api/youzan.trades.sold.get/4.0.4?access_token=ddd', params],
+    ]);
+  });
+
+  it('should throw when trades sold get token is missing', () => {
+    expect(() => tradesSoldGet({} as any)).toThrow('token 必传');
+  });
+
+  it('should call trades sold get api with token provider from client instance', async () => {
+    const getTokenMock = mock(() => Promise.resolve('instance-token'));
+    const client = new Client({ getToken: getTokenMock });
+    const params = { page_no: 1, page_size: 20 };
+
+    const result = client.tradesSoldGet(params);
+    expect(result instanceof Promise).toBe(true);
+    await result;
+    expect(getTokenMock).toHaveBeenCalledTimes(1);
+    expect(postMock.mock.calls).toEqual([
+      ['/api/youzan.trades.sold.get/4.0.4?access_token=instance-token', params],
+    ]);
+  });
+
+  it('should use client instance host when calling api', async () => {
+    const client = new Client({
+      getToken: () => 'instance-token',
+      host: 'http://localhost',
+    });
+
+    await client.tradesSoldGet({ page_no: 1 });
+    expect(postMock.mock.calls).toEqual([
+      ['http://localhost/api/youzan.trades.sold.get/4.0.4?access_token=instance-token', { page_no: 1 }],
+    ]);
+  });
+
+  it('should call auth exempt api from client instance without token provider', async () => {
+    const client = new Client();
+
+    await client.call({
+      api: 'youzan.shop.get',
+      version: '3.0.0',
+      authExempt: true,
+    });
+    expect(postMock.mock.calls).toEqual([
+      ['/api/auth_exempt/youzan.shop.get/3.0.0', undefined],
     ]);
   });
 });

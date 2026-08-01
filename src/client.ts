@@ -18,6 +18,7 @@ interface RuntimeApiCallParams {
     isRichText?: boolean;
   };
   host?: string;
+  signal?: AbortSignal;
 }
 
 /**
@@ -66,11 +67,15 @@ export function call(
 
   // 上传文件
   if (hasFiles(apiParam.files)) {
-    return utilHttp.upload(urlPath, apiParam.files!);
+    return utilHttp.upload(urlPath, apiParam.files!, apiParam.signal);
   }
 
   // 普通调用
-  return utilHttp.post(urlPath, apiParam.params as Record<string, unknown> | undefined);
+  return utilHttp.post(
+    urlPath,
+    apiParam.params as Record<string, unknown> | undefined,
+    apiParam.signal,
+  );
 }
 
 /**
@@ -94,6 +99,7 @@ export function createTokenApiCaller<TParams extends Record<string, unknown> = R
       params: apiParam.params,
       config: definition.config,
       host: apiParam.host,
+      signal: apiParam.signal,
     });
   };
 }
@@ -149,6 +155,7 @@ export class Client {
       params,
       token: options.token,
       host: options.host,
+      signal: options.signal,
     });
   }
 }

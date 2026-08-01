@@ -94,8 +94,13 @@ function isFailedApiResponse(data: unknown): data is { success: false } {
  *
  * @param url 支持绝对路径、相对路径
  * @param params POST 参数
+ * @param signal 中止信号
  */
-export async function post<T = unknown>(url: string, params?: Record<string, unknown>) {
+export async function post<T = unknown>(
+  url: string,
+  params?: Record<string, unknown>,
+  signal?: AbortSignal,
+) {
   const resp = await fetch(getRequestUrl(url), {
     method: 'POST',
     headers: {
@@ -103,6 +108,7 @@ export async function post<T = unknown>(url: string, params?: Record<string, unk
       'Content-type': 'application/json;charset=UTF-8',
     },
     body: params === undefined ? undefined : JSON.stringify(params),
+    signal,
   });
   return toHttpResponse<T>(resp);
 }
@@ -112,10 +118,12 @@ export async function post<T = unknown>(url: string, params?: Record<string, unk
  *
  * @param url 支持绝对路径、相对路径
  * @param files 上传文件参数，支持 Map 或 Object。示例: {"image": "/path/to/filename.jpg"}
+ * @param signal 中止信号
  */
 export async function upload<T = unknown>(
   url: string,
   files: Map<string, string> | Record<string, string>,
+  signal?: AbortSignal,
 ) {
   const form = new FormData();
 
@@ -131,6 +139,7 @@ export async function upload<T = unknown>(
       'User-Agent': USER_AGENT,
     },
     body: form,
+    signal,
   });
   return toHttpResponse<T>(resp);
 }

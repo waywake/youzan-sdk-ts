@@ -8,6 +8,8 @@ interface TokenBaseParams {
   client_id: string;
   client_secret: string;
   host?: string;
+  /** 中止信号 */
+  signal?: AbortSignal;
 }
 
 /** 自用型应用获取 Token */
@@ -72,6 +74,8 @@ interface ApiCallBase {
   config?: ClientConfig;
   /** 自定义主机地址 */
   host?: string;
+  /** 中止信号 */
+  signal?: AbortSignal;
 }
 
 /** API 调用参数。未知或未收录接口的 params 按 Record 处理。 */
@@ -156,6 +160,8 @@ export interface ClientTokenApiOptions {
   token?: string;
   /** 自定义主机地址；不传时使用 Client 实例的 host */
   host?: string;
+  /** 中止信号 */
+  signal?: AbortSignal;
 }
 
 /** 固定 API 封装定义 */
@@ -176,6 +182,8 @@ export interface TokenApiCallParams<TParams extends Record<string, unknown> = Re
   params?: TParams;
   /** 自定义主机地址 */
   host?: string;
+  /** 中止信号 */
+  signal?: AbortSignal;
 }
 
 /** 订单批量查询接口订单状态 */

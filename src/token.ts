@@ -66,5 +66,11 @@ export function get(params: TokenParams): Promise<HttpResponse<TokenGetResponse>
     urlPath = params.host + urlPath;
   }
 
-  return utilHttp.post<TokenGetResponse>(urlPath, params as unknown as Record<string, unknown>);
+  const { signal, ...payload } = params;
+
+  return utilHttp.post<TokenGetResponse>(
+    urlPath,
+    payload as unknown as Record<string, unknown>,
+    signal,
+  );
 }

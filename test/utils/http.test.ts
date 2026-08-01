@@ -46,6 +46,53 @@ describe('utils/http', () => {
     });
   });
 
+  it('post should pass abort signal to fetch', async () => {
+    const controller = new AbortController();
+    const fetchMock = mock(() =>
+      Promise.resolve(
+        new Response(JSON.stringify({ ok: true }), {
+          status: 200,
+          headers: { 'content-type': 'application/json' },
+        }),
+      ),
+    );
+    globalThis.fetch = fetchMock as unknown as typeof fetch;
+
+    await post('/api/test', { id: 'aa' }, controller.signal);
+
+    expect((fetchMock.mock.calls[0][1] as RequestInit).signal).toBe(controller.signal);
+  });
+
+  it('post should reject when aborted', async () => {
+    const controller = new AbortController();
+    controller.abort();
+
+    await expect(post('/api/test', {}, controller.signal)).rejects.toThrow('aborted');
+  });
+
+  it('upload should pass abort signal to fetch', async () => {
+    const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'youzan-sdk-'));
+    const filePath = path.join(tmpDir, 'pic.txt');
+    fs.writeFileSync(filePath, 'hello');
+
+    const controller = new AbortController();
+    const fetchMock = mock(() =>
+      Promise.resolve(
+        new Response('uploaded', {
+          status: 200,
+          headers: { 'content-type': 'text/plain' },
+        }),
+      ),
+    );
+    globalThis.fetch = fetchMock as unknown as typeof fetch;
+
+    await upload('https://example.com/upload', { image: filePath }, controller.signal);
+
+    expect((fetchMock.mock.calls[0][1] as RequestInit).signal).toBe(controller.signal);
+
+    fs.rmSync(tmpDir, { recursive: true, force: true });
+  });
+
   it('post should reject non-2xx responses with response details', async () => {
     globalThis.fetch = mock(() =>
       Promise.resolve(

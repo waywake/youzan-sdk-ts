@@ -37,7 +37,7 @@ describe('client', () => {
     expect(result instanceof Promise).toBe(true);
     await result;
     expect(postMock.mock.calls).toEqual([
-      ['/api/auth_exempt/youzan.shop.get/3.0.0', undefined],
+      ['/api/auth_exempt/youzan.shop.get/3.0.0', undefined, undefined],
     ]);
   });
 
@@ -46,7 +46,7 @@ describe('client', () => {
     expect(result instanceof Promise).toBe(true);
     await result;
     expect(postMock.mock.calls).toEqual([
-      ['/api/auth_exempt/youzan.shop.get/3.0.0', {}],
+      ['/api/auth_exempt/youzan.shop.get/3.0.0', {}, undefined],
     ]);
   });
 
@@ -59,7 +59,7 @@ describe('client', () => {
     expect(result instanceof Promise).toBe(true);
     await result;
     expect(postMock.mock.calls).toEqual([
-      ['/api/auth_exempt/youzan.shop.get/3.0.0', { id: 'aa' }],
+      ['/api/auth_exempt/youzan.shop.get/3.0.0', { id: 'aa' }, undefined],
     ]);
   });
 
@@ -75,7 +75,7 @@ describe('client', () => {
     expect(result instanceof Promise).toBe(true);
     await result;
     expect(uploadMock.mock.calls).toEqual([
-      ['http://localhost/api/youzan.shop.get/3.0.0?access_token=ddd', { image: './o.png' }],
+      ['http://localhost/api/youzan.shop.get/3.0.0?access_token=ddd', { image: './o.png' }, undefined],
     ]);
   });
 
@@ -90,7 +90,7 @@ describe('client', () => {
     expect(result instanceof Promise).toBe(true);
     await result;
     expect(postMock.mock.calls).toEqual([
-      ['/api/_textarea_/youzan.shop.get/3.0.0', { id: 'aa' }],
+      ['/api/_textarea_/youzan.shop.get/3.0.0', { id: 'aa' }, undefined],
     ]);
   });
 
@@ -106,7 +106,18 @@ describe('client', () => {
     expect(result instanceof Promise).toBe(true);
     await result;
     expect(postMock.mock.calls).toEqual([
-      ['/api/youzan.trades.sold.get/4.0.4?access_token=ddd', params],
+      ['/api/youzan.trades.sold.get/4.0.4?access_token=ddd', params, undefined],
+    ]);
+  });
+
+  it('should call trades sold get api with abort signal', async () => {
+    const controller = new AbortController();
+
+    const result = tradesSoldGet({ token: 'ddd', params: {}, signal: controller.signal });
+    expect(result instanceof Promise).toBe(true);
+    await result;
+    expect(postMock.mock.calls).toEqual([
+      ['/api/youzan.trades.sold.get/4.0.4?access_token=ddd', {}, controller.signal],
     ]);
   });
 
@@ -124,7 +135,7 @@ describe('client', () => {
     await result;
     expect(getTokenMock).toHaveBeenCalledTimes(1);
     expect(postMock.mock.calls).toEqual([
-      ['/api/youzan.trades.sold.get/4.0.4?access_token=instance-token', params],
+      ['/api/youzan.trades.sold.get/4.0.4?access_token=instance-token', params, undefined],
     ]);
   });
 
@@ -136,7 +147,7 @@ describe('client', () => {
 
     await client.tradesSoldGet({ page_no: 1 });
     expect(postMock.mock.calls).toEqual([
-      ['http://localhost/api/youzan.trades.sold.get/4.0.4?access_token=instance-token', { page_no: 1 }],
+      ['http://localhost/api/youzan.trades.sold.get/4.0.4?access_token=instance-token', { page_no: 1 }, undefined],
     ]);
   });
 
@@ -149,7 +160,32 @@ describe('client', () => {
       authExempt: true,
     });
     expect(postMock.mock.calls).toEqual([
-      ['/api/auth_exempt/youzan.shop.get/3.0.0', undefined],
+      ['/api/auth_exempt/youzan.shop.get/3.0.0', undefined, undefined],
+    ]);
+  });
+
+  it('should pass abort signal from client instance call', async () => {
+    const controller = new AbortController();
+    const client = new Client();
+
+    await client.call({
+      api: 'youzan.shop.get',
+      version: '3.0.0',
+      authExempt: true,
+      signal: controller.signal,
+    });
+    expect(postMock.mock.calls).toEqual([
+      ['/api/auth_exempt/youzan.shop.get/3.0.0', undefined, controller.signal],
+    ]);
+  });
+
+  it('should pass abort signal from client instance tradesSoldGet', async () => {
+    const controller = new AbortController();
+    const client = new Client({ getToken: () => 'instance-token' });
+
+    await client.tradesSoldGet({ page_no: 1 }, { signal: controller.signal });
+    expect(postMock.mock.calls).toEqual([
+      ['/api/youzan.trades.sold.get/4.0.4?access_token=instance-token', { page_no: 1 }, controller.signal],
     ]);
   });
 });

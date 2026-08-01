@@ -69,7 +69,24 @@ describe('token', () => {
     const result = get(params);
     expect(result instanceof Promise).toBe(true);
     await result;
-    expect(postMock.mock.calls).toEqual([['/auth/token', params]]);
+    expect(postMock.mock.calls).toEqual([['/auth/token', params, undefined]]);
+  });
+
+  it('should call post with abort signal', async () => {
+    const controller = new AbortController();
+    const params = {
+      authorize_type: 'silent' as const,
+      client_id: 'aaa',
+      client_secret: 'bb',
+      grant_id: 110,
+      signal: controller.signal,
+    };
+    const result = get(params);
+    expect(result instanceof Promise).toBe(true);
+    await result;
+    const { signal, ...payload } = params;
+    expect(postMock.mock.calls).toEqual([['/auth/token', payload, signal]]);
+    expect(JSON.stringify(payload)).not.toContain('signal');
   });
 
   it('should throw when redirect_uri is missing for authorization_code type', () => {
@@ -93,7 +110,7 @@ describe('token', () => {
     const result = get(params);
     expect(result instanceof Promise).toBe(true);
     await result;
-    expect(postMock.mock.calls).toEqual([['/auth/token', params]]);
+    expect(postMock.mock.calls).toEqual([['/auth/token', params, undefined]]);
   });
 
   it('should throw when refresh_token is missing for refresh_token type', () => {
@@ -116,6 +133,6 @@ describe('token', () => {
     const result = get(params);
     expect(result instanceof Promise).toBe(true);
     await result;
-    expect(postMock.mock.calls).toEqual([['/auth/token', params]]);
+    expect(postMock.mock.calls).toEqual([['/auth/token', params, undefined]]);
   });
 });
